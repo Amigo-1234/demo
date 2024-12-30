@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate to Haqslam Mosque</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: "Raleway", sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            padding: 50px;
+        }
+        .donate-card {
+            max-width: 500px;
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .donate-card h2 {
+            color: #333;
+        }
+        .donate-card p {
+            color: #666;
+            font-size: 16px;
+        }
+        .donate-button {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .donate-button:hover {
+            background-color: #2ecc71;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Check if user is logged in
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        if (!loggedInUser) {
+            alert("Access denied. Please log in first.");
+            window.location.href = "signin.html"; // Redirect to sign-in page
+        }
+    </script>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script> <!-- Paystack Script -->
+
+    <div class="container">
+        <div class="donate-card">
+            <h2>Support Haqslam Mosque</h2>
+            <p>Your donations help us sustain mosque operations, support community programs, and assist those in need through Zakat and Sadaqah.</p>
+            <p>JazakAllahu Khair for your generosity!</p>
+
+            <!-- Donation Form -->
+            <form id="donate-form">
+                <input type="number" id="amount" placeholder="Enter Amount (e.g., 500)" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+                <button type="button" class="donate-button" onclick="payWithPaystack()">Donate Now</button>
+            </form>
+        </div>
+
+        <a href="index.html" class="back-button">Back to Home</a>
+    </div>
+
+    <div class="footer">
+        <p>All donations are used to support the mosque and community services. May Allah reward you abundantly!</p>
+    </div>
+    <p>For now, you can support Haqslam Mosque through the following:</p>
+<ul>
+    <li>Bank Transfer: <strong>Account Name : HAQIQATU-S-SALAM S0CIETY OF NIGERIA | Account Number: 7533648010 | Bank: FCMB</strong></li>
+    <li>Contact Us: <strong>07051516542</strong></li>
+</ul>
+
+
+    <script>
+        function payWithPaystack() {
+            let amount = document.getElementById("amount").value * 100; // Convert to kobo
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            var handler = PaystackPop.setup({
+                key: 'pk_test_c6fb22a1d3a2d182c4f771764ed7291ca0012a05', // Replace with your Paystack public key
+                email: 'olamidesamson841@gmail.com', // Replace with donor's email if available
+                amount: amount, // Amount in kobo
+                currency: 'NGN', // Currency
+                callback: function(response) {
+                    alert('Payment successful! Transaction reference: ' + response.reference);
+                    // Optional: Add code to save the transaction in your database
+                },
+                onClose: function() {
+                    alert('Transaction was canceled.');
+                }
+            });
+
+            handler.openIframe();
+        }
+    </script>
+</body>
+</html>
